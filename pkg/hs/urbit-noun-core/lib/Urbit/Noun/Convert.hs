@@ -76,7 +76,7 @@ instance Monoid (Parser a) where
 
 -- Conversion ------------------------------------------------------------------
 
-class NFData a => FromNoun a where
+class FromNoun a where
   parseNoun :: Noun -> Parser a
 
 class ToNoun a where
@@ -88,13 +88,13 @@ fromNoun :: FromNoun a => Noun -> Maybe a
 fromNoun n = runParser (parseNoun n) [] onFail onSuccess
   where
     onFail p m  = Nothing
-    onSuccess x = Just $ force x
+    onSuccess x = Just x
 
 fromNounErr :: FromNoun a => Noun -> Either ([Text], Text) a
 fromNounErr n = runParser (parseNoun n) [] onFail onSuccess
   where
     onFail p m  = Left (p, pack m)
-    onSuccess x = Right $ force x
+    onSuccess x = Right x
 
 data BadNoun = BadNoun [Text] String
   deriving (Eq, Ord)
@@ -114,7 +114,7 @@ fromNounExn :: MonadIO m => FromNoun a => Noun -> m a
 fromNounExn n = runParser (parseNoun n) [] onFail onSuccess
   where
     onFail p m  = throwIO (BadNoun p m)
-    onSuccess x = pure $ force x
+    onSuccess x = pure x
 
 
 -- Cord Conversions ------------------------------------------------------------

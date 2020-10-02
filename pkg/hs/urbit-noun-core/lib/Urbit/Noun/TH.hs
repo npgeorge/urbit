@@ -121,22 +121,12 @@ deriveFromNoun tyName = do
 
     let ty = foldl' (\acc v -> AppT acc (VarT v)) (ConT tyName) params
 
-    let overlap    = Nothing
-        body       = NormalB (addErrTag (nameStr tyName) exp)
-        ctxFun x   = params <&> \t -> AppT (ConT x) (VarT t)
-        nfdataCtx  = ctxFun ''NFData
-        nounCtx    = ctxFun ''FromNoun
-        inst     = AppT (ConT ''FromNoun) ty
+    let overlap = Nothing
+        body    = NormalB (addErrTag (nameStr tyName) exp)
+        ctx     = params <&> \t -> AppT (ConT ''FromNoun) (VarT t)
+        inst    = AppT (ConT ''FromNoun) ty
 
-    pure [
-      -- When deriving Generic, we don't need a context or a strategy...
-      StandaloneDerivD Nothing [] (AppT (ConT ''Generic) ty),
-      -- ...but when deriving NFData, we must usually pick a strategy since it
-      -- is ambiguous, and we have to have context over the type.
-      StandaloneDerivD (Just AnyclassStrategy) nfdataCtx (AppT (ConT ''NFData) ty),
-      -- Actual FromNoun.parseNoun.
-      InstanceD overlap nounCtx inst [ValD (VarP 'parseNoun) body []]
-      ]
+    pure [InstanceD overlap ctx inst [ValD (VarP 'parseNoun) body []]]
 
 sumFromNoun :: [(String, Name)] -> [(String, ConInfo)] -> Exp
 sumFromNoun [] cl = taggedFromNoun cl

@@ -48,10 +48,7 @@ padByteString bs length | remaining > 0 = bs <> (BS.replicate remaining 0)
 -- A Pass is the Atom concatenation of 'b', the public encryption key, and the
 -- public authentication key. (see +pass-from-eth.)
 data Pass = Pass { passSign :: Ed.PublicKey, passCrypt :: Ed.PublicKey }
-  deriving (Eq, Ord, Show, Generic, NFData)
-
-instance NFData Ed.PublicKey where
-  rnf (Ed.PublicKey bs) = rnf bs
+  deriving (Eq, Ord, Show)
 
 passToBS :: Pass -> BS.ByteString
 passToBS Pass{..} = C.singleton 'b' <>
@@ -82,7 +79,7 @@ instance FromNoun Pass where
 -- seed. These aren't actually private keys, but public/private keypairs which
 -- can be derived from these seeds.
 data Ring = Ring { ringSign :: BS.ByteString, ringCrypt :: BS.ByteString }
-  deriving (Eq, Generic, NFData)
+  deriving (Eq)
 
 instance ToNoun Ring where
   toNoun Ring{..} =
@@ -206,7 +203,7 @@ deriveNoun ''AmesEv
 -- Arvo Events -----------------------------------------------------------------
 
 newtype Entropy = Entropy { entropyBits :: Word512 }
- deriving newtype (Eq, Ord, FromNoun, ToNoun, NFData)
+ deriving newtype (Eq, Ord, FromNoun, ToNoun)
 
 instance Show Entropy where
   show = const "\"ENTROPY (secret)\""
@@ -347,7 +344,7 @@ deriveNoun ''ZuseEv
 data Ev
     = EvBlip BlipEv
     | EvVane Vane
-  deriving (Eq, Show, Generic, NFData)
+  deriving (Eq, Show)
 
 instance ToNoun Ev where
   toNoun = \case

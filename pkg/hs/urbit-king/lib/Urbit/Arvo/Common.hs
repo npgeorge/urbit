@@ -26,15 +26,13 @@ import qualified Urbit.Ob                  as Ob
         ["org", "urbit", "dns"] -> dns.urbit.org
 -}
 newtype Turf = Turf { unTurf :: [Cord] }
-  deriving newtype (Eq, Ord, Show, ToNoun, FromNoun, NFData)
+  deriving newtype (Eq, Ord, Show, ToNoun, FromNoun)
 
 newtype KingId = KingId { unKingId :: UV }
-  deriving newtype (Eq, Ord, Show, Num, Real, Enum, Integral, FromNoun, ToNoun,
-                    NFData)
+  deriving newtype (Eq, Ord, Show, Num, Real, Enum, Integral, FromNoun, ToNoun)
 
 newtype ServId = ServId { unServId :: UV }
-  deriving newtype (Eq, Ord, Show, Num, Enum, Integral, Real, FromNoun, ToNoun,
-                    NFData)
+  deriving newtype (Eq, Ord, Show, Num, Enum, Integral, Real, FromNoun, ToNoun)
 
 
 -- Http Common -----------------------------------------------------------------
@@ -66,10 +64,6 @@ type Method = H.StdMethod
 -- TODO Hack! Don't write instances for library types. Write them for
 -- our types instead.
 
-instance NFData H.StdMethod where
-  -- simple sum type with no products
-  rnf x = x `seq` ()
-
 instance ToNoun H.StdMethod where
   toNoun = toNoun . MkBytes . H.renderStdMethod
 
@@ -85,7 +79,7 @@ instance FromNoun H.StdMethod where
 -- Http Server Configuration ---------------------------------------------------
 
 newtype PEM = PEM { unPEM :: Wain }
-  deriving newtype (Eq, Ord, ToNoun, FromNoun, NFData)
+  deriving newtype (Eq, Ord, ToNoun, FromNoun)
 
 instance Show PEM where
   show _ = "\"PEM (secret)\""
@@ -107,7 +101,7 @@ deriveNoun ''HttpServerConf
 -- Desk and Mime ---------------------------------------------------------------
 
 newtype Desk = Desk { unDesk :: Cord }
-  deriving newtype (Eq, Ord, Show, ToNoun, FromNoun, NFData)
+  deriving newtype (Eq, Ord, Show, ToNoun, FromNoun)
 
 data Mime = Mime Path File
   deriving (Eq, Ord, Show)
@@ -133,23 +127,19 @@ deriveNoun ''JsonNode
 -- Ames Destinations -------------------------------------------------
 
 newtype Patp a = Patp { unPatp :: a }
-  deriving newtype (Eq, Ord, Enum, Real, Integral, Num, ToNoun, FromNoun,
-                    NFData)
+  deriving newtype (Eq, Ord, Enum, Real, Integral, Num, ToNoun, FromNoun)
 
 -- Network Port
 newtype Port = Port { unPort :: Word16 }
-  deriving newtype (Eq, Ord, Show, Enum, Real, Integral, Num, ToNoun, FromNoun,
-                    NFData)
+  deriving newtype (Eq, Ord, Show, Enum, Real, Integral, Num, ToNoun, FromNoun)
 
 -- @if
 newtype Ipv4 = Ipv4 { unIpv4 :: Word32 }
-  deriving newtype (Eq, Ord, Show, Enum, Real, Integral, Num, ToNoun, FromNoun,
-                    NFData)
+  deriving newtype (Eq, Ord, Show, Enum, Real, Integral, Num, ToNoun, FromNoun)
 
 -- @is
 newtype Ipv6 = Ipv6 { unIpv6 :: Word128 }
-  deriving newtype (Eq, Ord, Show, Enum, Real, Integral, Num, ToNoun, FromNoun,
-                    NFData)
+  deriving newtype (Eq, Ord, Show, Enum, Real, Integral, Num, ToNoun, FromNoun)
 
 type Galaxy = Patp Word8
 
@@ -209,7 +199,6 @@ type AmesDest = Each Galaxy (Jammed AmesAddress)
 
 -}
 data ReOrg = ReOrg Cord Cord Cord EvilPath Noun
-  deriving (Generic, NFData)
 
 instance FromNoun ReOrg where
   parseNoun = named "ReOrg" . \case

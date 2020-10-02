@@ -33,8 +33,7 @@ import Urbit.EventLog.LMDB (LogIdentity(..))
     printing or comparing them is insane.
 -}
 newtype Nock = Nock Noun
-  deriving (Generic)
-  deriving newtype (FromNoun, ToNoun, NFData)
+  deriving newtype (FromNoun, ToNoun)
 
 instance Eq Nock where
   (==) (Nock x) (Nock y) = jamBS x == jamBS y
@@ -61,10 +60,10 @@ deriveNoun ''Pill
 -- Jobs ------------------------------------------------------------------------
 
 data Work = Work EventId Mug Wen Ev
-  deriving (Eq, Show, Generic, NFData)
+  deriving (Eq, Show)
 
 data LifeCyc = LifeCyc EventId Mug Nock
-  deriving (Eq, Show, Generic, NFData)
+  deriving (Eq, Show)
 
 data Job
   = DoWork Work
