@@ -86,7 +86,7 @@ step st@St{..} = \case
     word = fromIntegral
 
     record :: Text -> St -> St
-    record t st@St{..} = st { sHistory = force $ trim (sHistory |> t) }
+    record !t st@St{..} = st { sHistory = trim (sHistory |> t) }
 
     trim :: Seq a -> Seq a
     trim s | length s < 20 = s
