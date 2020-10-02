@@ -5986,11 +5986,23 @@
           ['~' '~' (weld (rip 3 (wood q.p.lot)) rep)]
         ==
       --
-  =+  rep=*tape
+  =|  rep=tape
   =<  |%
-      ++  a-co  |=(dat/@ ((d-co 1) dat))
-      ++  c-co  (em-co [58 1] |=({? b/@ c/tape} [~(c ne b) c]))
-      ++  d-co  |=(min/@ (em-co [10 min] |=({? b/@ c/tape} [~(d ne b) c])))
+      ::  +a-co: decimal, not padded
+      ::  +c-co: base58check
+      ::  +d-co: decimal, zero-padding specified
+      ::  +r-co: floating point
+      ::  +s-co: '.'-prefixed base16, 4 digits zero-padding
+      ::  +v-co: base32, zero-padding specified
+      ::  +w-co: base64, zero-padding specified
+      ::  +x-co: base16, zero-padding specified
+      ::  +y-co: decimal, 2 digits zero-padding
+      ::  +z-co: base16, not padded
+      ::
+      ++  a-co  |=(dat=@ ((d-co 1) dat))
+      ++  c-co  (em-co [58 1] |=([? b=@ c=tape] [~(c ne b) c]))
+      ++  d-co  |=(min=@ (em-co [10 min] |=([? b=@ c=tape] [~(d ne b) c])))
+      ::
       ++  r-co
         |=  a=dn
         ?:  ?=([%i *] a)  (weld ?:(s.a "inf" "-inf") rep)
@@ -6009,17 +6021,15 @@
         ?:(s.a res ['-' res])
       ::
       ++  s-co
-        |=  esc/(list @)  ^-  tape
-        ?~  esc
-          rep
-        :-  '.'
-        =>(.(rep $(esc t.esc)) ((x-co 4) i.esc))
+        |=  esc=(list @)  ^-  tape
+        ?~  esc  rep
+        ['.' =>(.(rep $(esc t.esc)) ((x-co 4) i.esc))]
       ::
-      ++  v-co  |=(min/@ (em-co [32 min] |=({? b/@ c/tape} [~(v ne b) c])))
-      ++  w-co  |=(min/@ (em-co [64 min] |=({? b/@ c/tape} [~(w ne b) c])))
-      ++  x-co  |=(min/@ (em-co [16 min] |=({? b/@ c/tape} [~(x ne b) c])))
-      ++  y-co  |=(dat/@ ((d-co 2) dat))
-      ++  z-co  |=(dat/@ `tape`['0' 'x' ((x-co 1) dat)])
+      ++  v-co  |=(min=@ (em-co [32 min] |=([? b=@ c=tape] [~(v ne b) c])))
+      ++  w-co  |=(min=@ (em-co [64 min] |=([? b=@ c=tape] [~(w ne b) c])))
+      ++  x-co  |=(min=@ (em-co [16 min] |=([? b=@ c=tape] [~(x ne b) c])))
+      ++  y-co  |=(dat=@ ((d-co 2) dat))
+      ++  z-co  |=(dat=@ `tape`['0' 'x' ((x-co 1) dat)])
       --
   |%
   ::  in numeric .bas, format .min digits of .hol with .par
