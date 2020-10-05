@@ -6028,7 +6028,9 @@
       ++  z-co  |=(dat=@ `tape`['0' 'x' ((x-co 1) dat)])
       --
   |%
-  ::  in numeric .bas, format .min digits of .hol with .par
+  ::  +em-co: format in numeric base
+  ::
+  ::  in .bas, format .min digits of .hol with .par
   ::
   ::    - .hol is processed least-significant digit first
   ::    - all available digits in .hol will be processed, but
@@ -6051,10 +6053,10 @@
       rep  (par =(0 dar) rad rep)
     ==
   ::
-  ::  +em-co, also producing number of digits
+  ::  +ed-co: format in numeric base, with output length
   ::
-  ::    - .par's sample will be [| digit output] on the first call,
-  ::      regardless of the available digits in .hol
+  ::    - like +em-co, but .par's sample will be [| digit output]
+  ::      on the first call, regardless of the available digits in .hol
   ::    - used only for @r* floats
   ::
   ++  ed-co
@@ -6073,7 +6075,9 @@
       cou  +(cou)
     ==
   ::
-  ::  in numeric .bas, format each digit of .hol with .dug,
+  ::  +ox-co: format '.'-separated digit sequences in numeric base
+  ::
+  ::  in .bas, format each digit of .hol with .dug,
   ::  with '.' separators every .gop digits.
   ::
   ::    - .hol is processed least-significant digit first
@@ -6092,8 +6096,10 @@
       [bas ?:(top 0 gop)]
     |=([? b=@ c=tape] [(dug b) c])
   ::
-  ::  in numeric .bas, for .buz bloqs 0 to .dop,
-  ::  format at least one digit of .hol, prefixed with '.'
+  ::  +ro-co: format '.'-prefixed bloqs in numeric base
+  ::
+  ::  in .bas, for .buz bloqs 0 to .dop, format at least one
+  ::  digit of .hol, prefixed with '.'
   ::
   ::    - used only for @i* addresses
   ::
