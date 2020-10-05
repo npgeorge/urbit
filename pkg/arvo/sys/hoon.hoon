@@ -5982,16 +5982,18 @@
       --
   =|  rep=tape
   =<  |%
-      ::  +a-co: decimal, not padded
+      ::  rendering idioms, zero-padded to minimum lengths
+      ::
+      ::  +a-co: decimal
       ::  +c-co: base58check
-      ::  +d-co: decimal, zero-padding specified
+      ::  +d-co: decimal, takes minimum
       ::  +r-co: floating point
-      ::  +s-co: '.'-prefixed base16, 4 digits zero-padding
-      ::  +v-co: base32, zero-padding specified
-      ::  +w-co: base64, zero-padding specified
-      ::  +x-co: base16, zero-padding specified
-      ::  +y-co: decimal, 2 digits zero-padding
-      ::  +z-co: base16, not padded
+      ::  +s-co: list of '.'-prefixed base16, 4 digit mininum
+      ::  +v-co: base32, takes minimum
+      ::  +w-co: base64, takes minimum
+      ::  +x-co: base16, takes minimum
+      ::  +y-co: decimal, 2 digit minimum
+      ::  +z-co: '0x'-prefixed base16
       ::
       ++  a-co  |=(dat=@ ((d-co 1) dat))
       ++  c-co  (em-co [58 1] |=([? b=@ c=tape] [~(c ne b) c]))
