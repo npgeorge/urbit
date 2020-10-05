@@ -5906,8 +5906,8 @@
             %n   ['~' rep]
             %i
           ?+  hay  (z-co q.p.lot)
-            %f  ((ro-co [3 10 4] |=(a/@ ~(d ne a))) q.p.lot)
-            %s  ((ro-co [4 16 8] |=(a/@ ~(x ne a))) q.p.lot)
+            %f  ((ro-co [3 10 4] |=(a=@ ~(d ne a))) q.p.lot)
+            %s  ((ro-co [4 16 8] |=(a=@ ~(x ne a))) q.p.lot)
           ==
         ::
             %p
@@ -5932,18 +5932,17 @@
           ==     ==
         ::
             %q
-          =*  val  q.p.lot
           :+  '.'  '~'
-          =-  =.(rep (weld - rep) rep)
-          %-  tail
-          %+  roll  ?:(=(0 val) ~[0] (rip 3 val))
+          =;  res=(pair ? tape)
+            (weld q.res rep)
+          %+  roll
+            =*  val  q.p.lot
+            ?:(=(0 val) ~[0] (rip 3 val))
           |=  [q=@ s=? r=tape]
           :-  !s
-          ;:  weld
-            (trip (?:(s tod:po tos:po) q))
-            ?:(&(s !=(r "")) "-" ~)
-            r
-          ==
+          %+  weld
+           (trip (?:(s tod:po tos:po) q))
+          ?.(&(s !=(r "")) r ['-' r])
         ::
             %r
           ?+  hay  (z-co q.p.lot)
@@ -5957,14 +5956,15 @@
           ?:  ?=(%c hay)
             %+  welp  ['0' 'c' (reap (pad:fa q.p.lot) '1')]
             (c-co (enc:fa q.p.lot))
-          =-  (weld p.gam ?:(=(0 q.p.lot) `tape`['0' ~] q.gam))
-          ^=  gam  ^-  {p/tape q/tape}
-          ?+  hay  [~ ((ox-co [10 3] |=(a/@ ~(d ne a))) q.p.lot)]
-            %b  [['0' 'b' ~] ((ox-co [2 4] |=(a/@ ~(d ne a))) q.p.lot)]
+          ::
+          =;  gam=(pair tape tape)
+            (weld p.gam ?:(=(0 q.p.lot) `tape`['0' ~] q.gam))
+          ?+  hay  [~ ((ox-co [10 3] |=(a=@ ~(d ne a))) q.p.lot)]
+            %b  [['0' 'b' ~] ((ox-co [2 4] |=(a=@ ~(d ne a))) q.p.lot)]
             %i  [['0' 'i' ~] ((d-co 1) q.p.lot)]
-            %x  [['0' 'x' ~] ((ox-co [16 4] |=(a/@ ~(x ne a))) q.p.lot)]
-            %v  [['0' 'v' ~] ((ox-co [32 5] |=(a/@ ~(x ne a))) q.p.lot)]
-            %w  [['0' 'w' ~] ((ox-co [64 5] |=(a/@ ~(w ne a))) q.p.lot)]
+            %x  [['0' 'x' ~] ((ox-co [16 4] |=(a=@ ~(x ne a))) q.p.lot)]
+            %v  [['0' 'v' ~] ((ox-co [32 5] |=(a=@ ~(x ne a))) q.p.lot)]
+            %w  [['0' 'w' ~] ((ox-co [64 5] |=(a=@ ~(w ne a))) q.p.lot)]
           ==
         ::
             %s
